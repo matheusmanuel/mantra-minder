@@ -107,9 +107,31 @@ function getAllMantras(req, res) {
   }
 }
 
+function deleteMantra(req, res) {
+  try {
+    let sql = `DELETE FROM Mantras WHERE mantraID = ?`;
+    let id = req.body.mantraID;
+
+    db.run(sql, [id], function (error) {
+      if(error){
+        console.error("erro ao deletar um mantra: ", error.message);
+        res
+          .status(500)
+          .json({ msg: `erro ao deletar um mantra: ${error.message}` });
+      }else {
+        console.log(`O mantra com ${id} foi apagado com sucesso!`);
+        res.status(200).json({msg: `O mantra com ${id} foi apagado com sucesso!`})
+      }
+    });
+  } catch (error) {
+    console.error(`Erro ao deletar um mantra vt: ${error.message}`);
+    res.status(500).json({ msg: `erro ao deletar um mantra vt: ${error}` });
+  }
+}
 
 module.exports = {
   insertMantra,
   updateMantra,
   getAllMantras,
+  deleteMantra
 };
