@@ -1,12 +1,5 @@
 const db = require("../db/db");
 
-/*
- 1 - cadastrar um mantra.
- 2 - ver um mantra.
- 3 - editar um mantra.
- 4 - apagar um mantra. 
-*/
-
 function insertMantra(req, res) {
   try {
     let mantra = req.body;

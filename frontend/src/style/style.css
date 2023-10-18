@@ -1,0 +1,310 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+  text-decoration: none;
+  transition: all 0.3s;
+  font-family: "Inter", sans-serif;
+}
+.m-center-auto {
+  margin: 0 auto;
+}
+.btn-00 {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 15px 27px;
+  cursor: pointer;
+  border-radius: 9px;
+  background: linear-gradient(
+    264deg,
+    rgba(196, 137, 86, 0.88) 19.27%,
+    #b98c64 80.52%
+  );
+}
+.btn-01 {
+  color: rgba(95, 95, 95, 0.8);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 15px 27px;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 9px;
+  border: 1px solid rgba(95, 95, 95, 0.8);
+}
+body {
+  background: #fdf8f2;
+}
+.d-none {
+  display: none;
+}
+.d-flex {
+  display: flex !important;
+}
+.flex-direction-column {
+  flex-direction: column;
+}
+.justify-content-center {
+  justify-content: center !important;
+}
+.justify-content-between {
+  justify-content: space-between !important;
+}
+.justify-content-end {
+  justify-content: end !important;
+}
+.justify-content-start {
+  justify-content: start !important;
+}
+.align-items-center {
+  align-items: center;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.container {
+  max-width: 1288px;
+  padding: 0 2%;
+}
+.container-header {
+  padding: 40px 2% 30px;
+}
+
+/* header */
+header {
+  display: block;
+}
+header .logo p {
+  color: #2b2b2cb3;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 4px;
+}
+header .copy p {
+  color: #2b2b2cb3;
+  font-size: 13px;
+  font-weight: 500;
+}
+header .copy p a {
+  text-decoration: underline;
+  color: #2b2b2cb3;
+}
+header .copy .links a {
+  margin-top: 5px;
+  margin-right: 6px;
+}
+/* main mantras */
+main.main-container .mantra-container {
+  background-color: red;
+  border-radius: 27px;
+  background: #fff2e5;
+  padding: 18px;
+  margin-top: 28px;
+  margin-bottom: 60px;
+}
+main.main-container .mantra-container .mantra {
+  border-radius: 24px;
+  border: 1px solid #c8c8c8;
+  background: #fff4e9;
+  padding: 22px;
+  width: 31%;
+  height: fit-content;
+  margin: 12px 13px;
+}
+
+main.main-container .mantra-container .mantra:hover {
+}
+
+main.main-container .mantra .mantra-title {
+  color: #2b2b2c;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+main.main-container .mantra .mantra-text {
+  color: #2b2b2c;
+  font-size: 15px;
+  font-weight: 400;
+}
+main.main-container .mantra .mantra-footer {
+  margin-top: 10px;
+}
+main.main-container .mantra .config {
+  margin-right: 7px;
+  cursor: pointer;
+}
+main.main-container .mantra .time {
+  margin-left: auto;
+  font-size: 15px;
+}
+label .check {
+  width: 38px;
+  height: 22px;
+  background-color: #e3e3e3;
+  border-radius: 12px;
+  cursor: pointer;
+}
+label .check::after {
+  content: "";
+  display: block;
+  border-radius: 12px;
+  background: white;
+  width: 16px;
+  height: 16px;
+  transform: translateX(4px);
+  filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.06))
+    drop-shadow(0px 1px 3px rgba(16, 24, 40, 0.1));
+}
+
+label input:checked ~ .check {
+  background: #58d12d;
+}
+
+label input:checked ~ .check::after {
+  transform: translateX(18px);
+}
+
+.form-mantra {
+  margin-top: 40px;
+}
+
+.form-mantra h3 {
+  color: #2b2b2c;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+@media (max-width: 1300px) {
+  main.main-container .mantra-container .mantra {
+    width: 47%;
+  }
+}
+@media (max-width: 990px) {
+  main.main-container .mantra-container .mantra {
+    width: 100%;
+  }
+}
+
+/* form */
+.form-mantra {
+  padding-bottom: 60px;
+}
+.form-mantra form {
+  margin-top: 21px;
+}
+.form-mantra .form-item {
+  margin-bottom: 20px;
+  width: 30%;
+}
+.form-mantra .form-item label,
+.form-mantra .form-item p {
+  display: block;
+  color: #344054;
+  font-size: 15px;
+  font-weight: 500;
+}
+.form-mantra .form-item label {
+  margin-bottom: 8px;
+}
+.form-mantra .form-item .check {
+  margin-right: 5px;
+}
+.form-mantra .form-item input {
+  outline: none;
+  padding: 14px 18px;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--gray-300, #d0d5dd);
+  background: #fffcf9;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  color: var(--gray-500, #667085);
+  font-size: 15px;
+}
+.form-mantra .form-item input::placeholder {
+  color: var(--gray-500, #667085);
+}
+.form-mantra .form-item textarea {
+  resize: none;
+  padding: 15px 18px;
+  width: 100%;
+  height: 127px;
+  outline: none;
+  border-radius: 10px;
+  border: 1px solid var(--gray-300, #d0d5dd);
+  background: #fffcf9;
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  color: var(--gray-500, #667085);
+  font-size: 15px;
+}
+.form-mantra .form-item input#time {
+  width: auto;
+}
+.form-mantra .form-item:last-of-type {
+  margin-bottom: 30px;
+}
+
+/* modal */
+.modal-delete {
+  background: rgba(52, 64, 84, 0.7);
+  backdrop-filter: blur(8px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  opacity: 0;
+}
+.modal-delete.open{
+  visibility: visible; 
+  opacity: 1;
+}
+.modal-delete .modal-inner {
+  border-radius: 12px;
+  background: var(--White, #fff);
+  box-shadow: 0px 8px 8px -4px rgba(16, 24, 40, 0.03),
+    0px 20px 24px -4px rgba(70, 81, 102, 0.08);
+  width: 400px;
+  padding: 24px;
+}
+.modal-delete .modal-inner .modal-inner-title {
+  color: var(--gray-900, #101828);
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 20px;
+}
+.modal-delete .modal-inner .modal-inner-text {
+  color: #667085;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 10px 0 14px;
+}
+.modal-delete .modal-inner button {
+  border-radius: 8px;
+  border: 1px solid var(--gray-300, #d0d5dd);
+  background: var(--White, #fff);
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  width: 170px;
+  height: 44px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  cursor: pointer;
+}
+.modal-delete .modal-inner button:first-of-type:hover {
+  background: var(--White, #f7f7f7);
+}
+.modal-delete .modal-inner button:last-of-type {
+  border-radius: 8px;
+  border: 1px solid var(--error-600, #d92d20);
+  background: var(--error-600, #d92d20);
+  color: var(--White, #fff);
+  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+}
+.modal-delete .modal-inner button:last-of-type:hover{
+  background: var(--error-600, #b82218);
+}
