@@ -13,8 +13,8 @@ const routes = createBrowserRouter([
         element: <NewMantra />
     },
     {
-        path: "/update",
-        element: <UpdateMantra />
+        path: "/update/:id",
+        element: <UpdateMantra />,
     }
 ])
 

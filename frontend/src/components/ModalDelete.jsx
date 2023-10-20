@@ -1,3 +1,4 @@
+
 import React from 'react';
 const ModalDelete = () => {
     return (
@@ -7,8 +8,8 @@ const ModalDelete = () => {
                 <p className="modal-inner-title">Apagar o mantra!</p>
                 <p className="modal-inner-text">Tem certeza de que deseja excluir este matra? Essa ação não pode ser desfeita.</p>
                 <div className='d-flex justify-content-between'>
-                    <button>cancelar</button>
-                    <button>Apagar</button>
+                    <button onClick={(e)=>{e.target.parentElement.parentElement.parentElement.classList.remove('open')}}>cancelar</button>
+                    <button className='delete-mantra-btn'>Apagar</button>
                 </div>
             </div>
         </div>

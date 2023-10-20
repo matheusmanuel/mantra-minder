@@ -1,7 +1,81 @@
-import React from 'react';
+/*
+    1-Pegar o id do mantra.✔
+    2-Buscar os dados do mantra pelo id.✔
+    3-Setar esses dados no campos do form.
+    4-Quando apertar no botão de salvar pegar nos dados dos forms e mandar na api.  
+*/
+
+import React, { useEffect, useState } from 'react';
 import Header from "./Header";
-import { NavLink } from 'react-router-dom';
+import axios from 'axios';
+import { NavLink, useParams } from 'react-router-dom';
+
 const UpdateMantra = () => {
+    let { id } = useParams();
+    let [MantraData, setMantraData] = useState({
+        mantraTitle: '',
+        mantraText: '',
+        isActive: 0,
+        playOnStartup: 0,
+        displayTime: '',
+        mantraID: undefined,
+    });
+    
+    const [mantraTitleOriginal, setMantraTitleOriginal] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.put(`http://localhost:4350/mantra/update/`, MantraData)
+            .then((response) => {
+                if (response.status === 200) {
+                    alert('Mantra atualizado com sucesso!');
+                }
+            })
+            .catch((error) => {
+                console.error('Erro ao atualizar o mantra:', error);
+            });
+    }
+
+    useEffect(() => {
+        axios.get(`http://localhost:4350/mantra/${id}`)
+            .then((response) => {
+                setMantraData(response.data);
+                setIsCheckedPlayOnStartup(response.data.playOnStartup === 1);
+                setIsCheckedActive(response.data.isActive === 1);
+                setMantraTitleOriginal(response.data.mantraTitle);
+            })
+            .catch((error) => {
+                console.error('Erro ao buscar os dados do mantra:', error);
+            });
+    }, [id]);
+
+    const [isCheckedPlayOnStartup, setIsCheckedPlayOnStartup] = useState();
+    const [isCheckedIsActive, setIsCheckedActive] = useState();
+
+    const handleCheckboxChange = (event) => {
+        const targetName = event.target.name;
+        const targetValue = event.target.checked ? 1 : 0;
+
+        if (targetName === 'playOnStartup') {
+            setIsCheckedPlayOnStartup(event.target.checked);
+            setMantraData((mantra) => ({
+                ...mantra,
+                playOnStartup: targetValue,
+            }));
+        } else if (targetName === 'isActive') {
+            setIsCheckedActive(event.target.checked);
+            setMantraData((mantra) => ({
+                ...mantra,
+                isActive: targetValue,
+            }));
+        }
+    };
+    const handleChangeInput = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+        setMantraData({ ...MantraData, [name]: value })
+    };
+
     return (
         <>
             <Header />
@@ -10,33 +84,42 @@ const UpdateMantra = () => {
                     <button className='btn-01'>voltar</button>
                 </NavLink>
                 <div className='form-mantra'>
-                    <h3>Editar o mantra ‘Plenitude financeira’</h3>
-                    <form>
+                    <h3>Editar o mantra ‘{mantraTitleOriginal}’</h3>
+                    <form onSubmit={handleSubmit}>
                         <div className="form-item">
                             <label htmlFor="mantra-title">Título do seu Mantra</label>
-                            <input type="text" placeholder='Título do seu Mantra' id='mantra-title' value='Plenitude financeira' required/>
+                            <input
+                                type="text"
+                                placeholder='Título do seu Mantra'
+                                id='mantra-title'
+                                name='mantraTitle'
+                                value={MantraData.mantraTitle}
+                                onChange={handleChangeInput}
+                                required
+                            />
+
                         </div>
                         <div className="form-item">
                             <label htmlFor="mantra-text">O Mantra em Si</label>
-                            <textarea name="" required placeholder='O seu mantra' id="mantra-text" value='Minhas finanças são um reflexo da minha clareza mental. Eu tomo decisões sábias e mantenho meu equilíbrio financeiro.'></textarea>
+                            <textarea name="mantraText" onChange={handleChangeInput} placeholder='O seu mantra' id="mantra-text" value={MantraData.mantraText} required></textarea>
                         </div>
                         <div className="form-item d-flex align-items-center">
                             <label>
-                                <input type="checkbox" className='d-none' />
+                                <input type="checkbox" className='d-none' id='playOnStartup' name='playOnStartup' checked={isCheckedPlayOnStartup} onChange={handleCheckboxChange} />
                                 <div className="check d-flex align-items-center"></div>
                             </label>
                             <p>Tocar o mantra quando o computador iniciar.</p>
                         </div>
                         <div className="form-item d-flex align-items-center">
                             <label>
-                                <input type="checkbox" className='d-none' defaultChecked/>
-                                <div className="check d-flex align-items-center"></div>
+                                <input type="checkbox" className='d-none' id='IsActive' name='isActive' checked={isCheckedIsActive} onChange={handleCheckboxChange} />
+                                <div className="check d-flex align-items-center"></ div>
                             </label>
                             <p>Desabilitar/habilitar a exibição do mantra.</p>
                         </div>
                         <div className="form-item">
                             <label htmlFor="time">Hora do dia para tocar a 🔔 notificação </label>
-                            <input type="time" id='time'value='22:01'  required/>
+                            <input name='displayTime' type="time" id='time' value={MantraData.displayTime} onChange={handleChangeInput} required />
                         </div>
                         <button className='btn-00'>Salvar o Mantra</button>
                     </form>
