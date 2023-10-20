@@ -122,9 +122,30 @@ function deleteMantra(req, res) {
   }
 }
 
+function getMantra(req, res){
+  try{
+    let {id} = req.params;
+    let sql = 'SELECT * FROM Mantras WHERE mantraID = ?';
+    db.get(sql, [id], (error, row)=>{
+      if(error){
+        return res.status(500).json({msg: "Erro interno no servidor"});
+      }
+      if(!row){
+        return res.status(404).json({msg: "Mantra não encontrado"});
+      }
+      return res.status(200).json(row);
+
+    });
+  }catch(error){
+    console.error(`Erro ao buscar um mantra vt: ${error.message}`);
+    res.status(500).json({ msg: `erro ao buscar um mantra vt: ${error}` });
+  }
+}
+
 module.exports = {
   insertMantra,
   updateMantra,
   getAllMantras,
-  deleteMantra
+  deleteMantra,
+  getMantra
 };
