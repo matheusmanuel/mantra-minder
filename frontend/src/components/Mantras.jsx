@@ -25,15 +25,13 @@ const Mantras = () => {
             }
         });
     }, []);
-
-    console.log(post);
-
+    
     return (
         <main className='container m-center-auto main-container'>
             <NavLink to="/new">
                 <button className='btn-00'>Criar Mantra</button>
             </NavLink>
-            <div className='mantra-container d-flex flex-wrap '>
+            <div className='mantra-container d-flex flex-wrap'>
                 {post && post.map((mantra, index) => (
                     <Mantra key={index} id={mantra.mantraID} title={mantra.mantraTitle} text={mantra.mantraText} time={mantra.displayTime} active={mantra.isActive} />
                 ))}

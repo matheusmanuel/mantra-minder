@@ -6,6 +6,7 @@ mantraRoutes.post('/mantra/insert', mantraController.insertMantra);
 mantraRoutes.put('/mantra/update', mantraController.updateMantra);
 mantraRoutes.get('/mantras', mantraController.getAllMantras);
 mantraRoutes.get('/mantra/:id', mantraController.getMantra);
+mantraRoutes.post('/mantra/a/:id', mantraController.updateActiveMantra)
 mantraRoutes.post('/mantra', mantraController.deleteMantra);
 
 module.exports = mantraRoutes;

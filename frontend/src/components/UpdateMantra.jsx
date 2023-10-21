@@ -1,17 +1,12 @@
-/*
-    1-Pegar o id do mantra.✔
-    2-Buscar os dados do mantra pelo id.✔
-    3-Setar esses dados no campos do form.
-    4-Quando apertar no botão de salvar pegar nos dados dos forms e mandar na api.  
-*/
-
 import React, { useEffect, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import Header from "./Header";
 import axios from 'axios';
 import { NavLink, useParams } from 'react-router-dom';
 
 const UpdateMantra = () => {
     let { id } = useParams();
+
     let [MantraData, setMantraData] = useState({
         mantraTitle: '',
         mantraText: '',
@@ -20,20 +15,25 @@ const UpdateMantra = () => {
         displayTime: '',
         mantraID: undefined,
     });
-    
     const [mantraTitleOriginal, setMantraTitleOriginal] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:4350/mantra/update/`, MantraData)
+        let promise = axios.put(`http://localhost:4350/mantra/update/`, MantraData)
             .then((response) => {
                 if (response.status === 200) {
-                    alert('Mantra atualizado com sucesso!');
+                    console.log('Mantra atualizado com sucesso!');
                 }
             })
             .catch((error) => {
                 console.error('Erro ao atualizar o mantra:', error);
             });
+            
+        toast.promise(promise, {
+            loading: 'Carregando...',
+            success: 'Mantra editado com sucesso!',
+            error: 'Erro ao editar um mantra',
+        });
     }
 
     useEffect(() => {
@@ -125,8 +125,10 @@ const UpdateMantra = () => {
                     </form>
                 </div>
             </div>
+            <Toaster />
         </>
     );
+    
 }
 
 export default UpdateMantra;

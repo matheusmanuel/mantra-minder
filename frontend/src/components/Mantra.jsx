@@ -62,7 +62,7 @@ const Mantra = (props) => {
                     <img src="/assets/img/settings.svg" className='config-icon' onClick={handleVisibleConfigBox} alt="setting" />
                     <div className='config-box'>
                         <div className='d-flex align-items-center justify-content-center' id={props.id} onClick={handleDeleteMantra}>apagar</div>
-                        <Link to={`/update/${props.id}`}><div className='d-flex align-items-center justify-content-center'>link</div></Link>
+                        <Link to={`/update/${props.id}`}><div className='d-flex align-items-center justify-content-center'>editar</div></Link>
                     </div>
                 </div>
                 <label>

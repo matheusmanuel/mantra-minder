@@ -106,14 +106,16 @@ function deleteMantra(req, res) {
     let id = req.body.mantraID;
 
     db.run(sql, [id], function (error) {
-      if(error){
+      if (error) {
         console.error("erro ao deletar um mantra: ", error.message);
         res
           .status(500)
           .json({ msg: `erro ao deletar um mantra: ${error.message}` });
-      }else {
+      } else {
         console.log(`O mantra com ${id} foi apagado com sucesso!`);
-        res.status(200).json({msg: `O mantra com ${id} foi apagado com sucesso!`})
+        res
+          .status(200)
+          .json({ msg: `O mantra com ${id} foi apagado com sucesso!` });
       }
     });
   } catch (error) {
@@ -122,30 +124,44 @@ function deleteMantra(req, res) {
   }
 }
 
-function getMantra(req, res){
-  try{
-    let {id} = req.params;
-    let sql = 'SELECT * FROM Mantras WHERE mantraID = ?';
-    db.get(sql, [id], (error, row)=>{
-      if(error){
-        return res.status(500).json({msg: "Erro interno no servidor"});
+function getMantra(req, res) {
+  try {
+    let { id } = req.params;
+    let sql = "SELECT * FROM Mantras WHERE mantraID = ?";
+    db.get(sql, [id], (error, row) => {
+      if (error) {
+        return res.status(500).json({ msg: "Erro interno no servidor" });
       }
-      if(!row){
-        return res.status(404).json({msg: "Mantra não encontrado"});
+      if (!row) {
+        return res.status(404).json({ msg: "Mantra não encontrado" });
       }
       return res.status(200).json(row);
-
     });
-  }catch(error){
+  } catch (error) {
     console.error(`Erro ao buscar um mantra vt: ${error.message}`);
     res.status(500).json({ msg: `erro ao buscar um mantra vt: ${error}` });
   }
 }
+function updateActiveMantra(req, res) {
+  const mantraId = req.params.id;
+  const newIsActive = req.body.isActive;
+  console.log('mantra id: ',mantraId);
+  console.log('active: ',newIsActive);
+  // Atualize o mantra no banco de dados
+  const sql = `UPDATE Mantras SET isActive = ? WHERE mantraId = ?`;
+  db.run(sql, [newIsActive, mantraId], function (err) {
+    if (err) {
+      return res.status(500).json({ error: `Erro ao atualizar o status do mantra ${err}` });
+    }
 
+    return res.json({ message: `Mantra com id:${mantraId} atualizado com sucesso para ${newIsActive}` });
+  });
+}
 module.exports = {
   insertMantra,
   updateMantra,
   getAllMantras,
   deleteMantra,
-  getMantra
+  getMantra,
+  updateActiveMantra,
 };
