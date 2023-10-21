@@ -145,8 +145,7 @@ function getMantra(req, res) {
 function updateActiveMantra(req, res) {
   const mantraId = req.params.id;
   const newIsActive = req.body.isActive;
-  console.log('mantra id: ',mantraId);
-  console.log('active: ',newIsActive);
+
   // Atualize o mantra no banco de dados
   const sql = `UPDATE Mantras SET isActive = ? WHERE mantraId = ?`;
   db.run(sql, [newIsActive, mantraId], function (err) {
