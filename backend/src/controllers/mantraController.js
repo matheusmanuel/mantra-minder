@@ -150,12 +150,44 @@ function updateActiveMantra(req, res) {
   const sql = `UPDATE Mantras SET isActive = ? WHERE mantraId = ?`;
   db.run(sql, [newIsActive, mantraId], function (err) {
     if (err) {
-      return res.status(500).json({ error: `Erro ao atualizar o status do mantra ${err}` });
+      return res
+        .status(500)
+        .json({ error: `Erro ao atualizar o status do mantra ${err}` });
     }
 
-    return res.json({ message: `Mantra com id:${mantraId} atualizado com sucesso para ${newIsActive}` });
+    return res.json({
+      message: `Mantra com id:${mantraId} atualizado com sucesso para ${newIsActive}`,
+    });
   });
 }
+
+function checkDuplicateDisplayTime(req, res) {
+  let displayTime = req.body.displayTime;
+
+  try {
+    let sql = 'SELECT * FROM Mantras WHERE displayTime = ?';
+    db.get(sql, [displayTime], (error, row)=>{
+      if(!displayTime){
+        return res.status(404).json({msg: `displayTime não pode estar vazio`})
+      }else if(error){
+        return res.status(500).json({msg: "Erro interno no servidor"});
+      }
+
+      if(row){
+        //Se 'row' existe, significa que já existe um mantra com o mesmo displayTime
+        return res.status(400).json({ next: false }); 
+      }else{
+        //Se 'row' for vazio, significa que não há duplicatas
+        return res.status(200).json({ next: true });
+      }
+
+    })
+  } catch (error) {
+    console.error(`Erro interno no servidor vt ${error.message}`);
+   return res.status(500).json({msg: "Erro interno no servidor vt"});
+  }
+}
+
 module.exports = {
   insertMantra,
   updateMantra,
@@ -163,4 +195,5 @@ module.exports = {
   deleteMantra,
   getMantra,
   updateActiveMantra,
+  checkDuplicateDisplayTime,
 };

@@ -8,5 +8,6 @@ mantraRoutes.get('/mantras', mantraController.getAllMantras);
 mantraRoutes.get('/mantra/:id', mantraController.getMantra);
 mantraRoutes.post('/mantra/a/:id', mantraController.updateActiveMantra)
 mantraRoutes.post('/mantra', mantraController.deleteMantra);
+mantraRoutes.post('/mantra/check/duplicate/displaytime', mantraController.checkDuplicateDisplayTime);
 
 module.exports = mantraRoutes;
