@@ -53,6 +53,7 @@ const Mantra = (props) => {
             }
         });
     }
+    
     const handleVisibleMantra = (e) => {
         let id = e.target.id;
         let newIsActive = e.target.checked ? 1 : 0;

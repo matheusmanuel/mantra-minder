@@ -243,6 +243,9 @@ label input:checked ~ .check::after {
 .form-mantra .form-item input#time {
   width: auto;
 }
+.form-mantra .form-item input#time.error{
+  border: 1.5px solid rgb(255, 0, 0);
+}
 .form-mantra .form-item:last-of-type {
   margin-bottom: 30px;
 }
