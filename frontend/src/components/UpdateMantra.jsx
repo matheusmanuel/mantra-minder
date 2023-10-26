@@ -3,9 +3,11 @@ import toast, { Toaster } from 'react-hot-toast';
 import Header from "./Header";
 import axios from 'axios';
 import { NavLink, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const UpdateMantra = () => {
     let { id } = useParams();
+    const navigate = useNavigate();
 
     let [MantraData, setMantraData] = useState({
         mantraTitle: '',
@@ -15,6 +17,7 @@ const UpdateMantra = () => {
         displayTime: '',
         mantraID: undefined,
     });
+
     const [mantraTitleOriginal, setMantraTitleOriginal] = useState('');
 
     const handleSubmit = (e) => {
@@ -28,7 +31,7 @@ const UpdateMantra = () => {
             .catch((error) => {
                 console.error('Erro ao atualizar o mantra:', error);
             });
-            
+
         toast.promise(promise, {
             loading: 'Carregando...',
             success: 'Mantra editado com sucesso!',
@@ -39,13 +42,18 @@ const UpdateMantra = () => {
     useEffect(() => {
         axios.get(`http://localhost:4350/mantra/${id}`)
             .then((response) => {
-                setMantraData(response.data);
-                setIsCheckedPlayOnStartup(response.data.playOnStartup === 1);
-                setIsCheckedActive(response.data.isActive === 1);
-                setMantraTitleOriginal(response.data.mantraTitle);
+                if (response.status == 204) {
+                    navigate('/');
+                } else {
+                    setMantraData(response.data);
+                    setIsCheckedPlayOnStartup(response.data.playOnStartup === 1);
+                    setIsCheckedActive(response.data.isActive === 1);
+                    setMantraTitleOriginal(response.data.mantraTitle);
+                }
+                console.log('response: ', response.status);
             })
             .catch((error) => {
-                console.error('Erro ao buscar os dados do mantra:', error);
+                console.log('Erro ao buscar os dados do mantra:', error);
             });
     }, [id]);
 
@@ -128,7 +136,7 @@ const UpdateMantra = () => {
             <Toaster />
         </>
     );
-    
+
 }
 
 export default UpdateMantra;

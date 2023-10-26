@@ -133,7 +133,7 @@ function getMantra(req, res) {
         return res.status(500).json({ msg: "Erro interno no servidor" });
       }
       if (!row) {
-        return res.status(404).json({ msg: "Mantra não encontrado" });
+        return res.status(204).json({ msg: "Mantra não encontrado" });
       }
       return res.status(200).json(row);
     });
@@ -142,6 +142,7 @@ function getMantra(req, res) {
     res.status(500).json({ msg: `erro ao buscar um mantra vt: ${error}` });
   }
 }
+
 function updateActiveMantra(req, res) {
   const mantraId = req.params.id;
   const newIsActive = req.body.isActive;
@@ -165,26 +166,27 @@ function checkDuplicateDisplayTime(req, res) {
   let displayTime = req.body.displayTime;
 
   try {
-    let sql = 'SELECT * FROM Mantras WHERE displayTime = ?';
-    db.get(sql, [displayTime], (error, row)=>{
-      if(!displayTime){
-        return res.status(404).json({msg: `displayTime não pode estar vazio`})
-      }else if(error){
-        return res.status(500).json({msg: "Erro interno no servidor"});
+    let sql = "SELECT * FROM Mantras WHERE displayTime = ?";
+    db.get(sql, [displayTime], (error, row) => {
+      if (!displayTime) {
+        return res
+          .status(404)
+          .json({ msg: `displayTime não pode estar vazio` });
+      } else if (error) {
+        return res.status(500).json({ msg: "Erro interno no servidor" });
       }
 
-      if(row){
+      if (row) {
         //Se 'row' existe, significa que já existe um mantra com o mesmo displayTime
-        return res.status(400).json({ next: false }); 
-      }else{
+        return res.status(400).json({ next: false });
+      } else {
         //Se 'row' for vazio, significa que não há duplicatas
         return res.status(200).json({ next: true });
       }
-
-    })
+    });
   } catch (error) {
     console.error(`Erro interno no servidor vt ${error.message}`);
-   return res.status(500).json({msg: "Erro interno no servidor vt"});
+    return res.status(500).json({ msg: "Erro interno no servidor vt" });
   }
 }
 

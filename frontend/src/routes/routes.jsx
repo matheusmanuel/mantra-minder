@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import Home from "../components/Home";
 import NewMantra from "../components/NewMantra";
 import UpdateMantra from "../components/UpdateMantra";
@@ -6,7 +6,7 @@ import UpdateMantra from "../components/UpdateMantra";
 const routes = createBrowserRouter([
     {
         path: "/",
-        element: <Home />
+        element: <Home />,
     },
     {
         path: "/new",
@@ -15,6 +15,10 @@ const routes = createBrowserRouter([
     {
         path: "/update/:id",
         element: <UpdateMantra />,
+    },
+    {
+        path: "*",
+        element: <Navigate to={'/'} />
     }
 ])
 

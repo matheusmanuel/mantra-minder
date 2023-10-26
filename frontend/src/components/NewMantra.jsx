@@ -71,7 +71,7 @@ const NewMantra = () => {
                 loading: 'Carregando...',
                 success: 'Mantra cadastrado com sucesso',
                 error: 'Erro ao cadastrar um mantra',
-                duration: 3000
+                duration: 5000
 
             });
         } else {
