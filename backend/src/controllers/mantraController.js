@@ -201,7 +201,7 @@ function checkDuplicateDisplayTimeInUpdate(req, res){
       }
 
       if (row) {
-        return res.status(400).json({ next: false });
+        return res.status(204).json({ next: false });
       } else {
         return res.status(200).json({ next: true });
       }
