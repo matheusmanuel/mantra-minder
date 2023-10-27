@@ -22,21 +22,38 @@ const UpdateMantra = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        let promise = axios.put(`http://localhost:4350/mantra/update/`, MantraData)
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log('Mantra atualizado com sucesso!');
-                }
-            })
-            .catch((error) => {
-                console.error('Erro ao atualizar o mantra:', error);
-            });
 
-        toast.promise(promise, {
-            loading: 'Carregando...',
-            success: 'Mantra editado com sucesso!',
-            error: 'Erro ao editar um mantra',
+        const save = () => {
+            let promise = axios.put(`http://localhost:4350/mantra/update/`, MantraData)
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log('Mantra atualizado com sucesso!');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Erro ao atualizar o mantra:', error);
+                });
+
+            toast.promise(promise, {
+                loading: 'Carregando...',
+                success: 'Mantra editado',
+                error: 'Erro ao editar um mantra',
+            });
+        }
+
+        axios.post('http://localhost:4350/mantra/check/edit/duplicate/displaytime', { mantraID: id, displayTime: MantraData.displayTime }).then((response)=>{
+            if(response.status == 200){
+                save();
+            }else if(response.status == 204){
+                alert('hor');
+                toast.error('Horário já em uso, escolha outro ps', {
+                    duration: 8000
+                });
+            }
+        }).catch((error)=>{
+            console.log('erro ao verificar o dt: ',error);
         });
+
     }
 
     useEffect(() => {
