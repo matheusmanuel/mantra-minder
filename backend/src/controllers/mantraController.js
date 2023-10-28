@@ -213,6 +213,23 @@ function checkDuplicateDisplayTimeInUpdate(req, res){
   }
 }
 
+function searchMantrasByDisplayTime(req, res){
+  let sql = 'SELECT * FROM Mantras WHERE displayTime = ?';
+  let displayTime = req.body.displayTime;
+  try{
+      db.get(sql,[displayTime], (error, rows)=>{
+        if (error) {
+          return res.status(500).json({ msg: "Erro interno no servidor ",error});
+        }
+        
+        return res.status(200).json(rows);
+      });
+  }catch(error){
+    console.log(`erro ao buscar os mantras pelo displayT: ${error.message}`);
+    res.status(500).json({msg:`erro ao buscar os mantras pelo displayT: ${error.message}`});
+  }
+} 
+
 module.exports = {
   insertMantra,
   updateMantra,
@@ -221,5 +238,6 @@ module.exports = {
   getMantra,
   updateActiveMantra,
   checkDuplicateDisplayTime,
-  checkDuplicateDisplayTimeInUpdate
+  checkDuplicateDisplayTimeInUpdate,
+  searchMantrasByDisplayTime
 };

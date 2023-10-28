@@ -10,5 +10,6 @@ mantraRoutes.post('/mantra/a/:id', mantraController.updateActiveMantra)
 mantraRoutes.post('/mantra', mantraController.deleteMantra);
 mantraRoutes.post('/mantra/check/duplicate/displaytime', mantraController.checkDuplicateDisplayTime);
 mantraRoutes.post('/mantra/check/edit/duplicate/displaytime', mantraController.checkDuplicateDisplayTimeInUpdate);
+mantraRoutes.post('/mantras/search/displayTime', mantraController.searchMantrasByDisplayTime);
 
 module.exports = mantraRoutes;
