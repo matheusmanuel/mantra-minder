@@ -140,7 +140,7 @@ const UpdateMantra = () => {
                                 <input type="checkbox" className='d-none' id='IsActive' name='isActive' checked={isCheckedIsActive} onChange={handleCheckboxChange} />
                                 <div className="check d-flex align-items-center"></ div>
                             </label>
-                            <p>Desabilitar/habilitar a exibição do mantra.</p>
+                            <p>Exibir o mantra.</p>
                         </div>
                         <div className="form-item">
                             <label htmlFor="time">Hora do dia para tocar a 🔔 notificação </label>
