@@ -1,13 +1,12 @@
 import React from 'react';
 import Header from "./Header";
 import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { insertMantra } from '../services/mantrasService';
 
 const NewMantra = () => {
     const navigate = useNavigate();
 
-    const baseUrl = 'http://localhost:4350/mantra/insert/';
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -19,69 +18,23 @@ const NewMantra = () => {
         let isActive = checkIsActive.checked ? 1 : 0;
         let playOnStartup = checkPlayOnStartup.checked ? 1 : 0;
 
-        const checkDuplicateDisplayTime = () => {
-            const baseUrl = 'http://localhost:4350/mantra/check/duplicate/displaytime';
-
-            return axios.post(baseUrl, { displayTime })
-                .then((response) => {
-                    if (response.status === 200) {
-                        return true;
-                    } else if (response.status === 400) {
-                        return false;
-                    }
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        console.error('Erro de resposta do servidor:', error.response.data);
-                    } else if (error.request) {
-                        console.error('Sem resposta do servidor. Verifique a conexão ou a URL da API.');
-                    } else {
-                        console.error('Erro ao configurar a solicitação:', error.message);
-                    }
-                    return false;
-                });
-        };
-
-        if (await checkDuplicateDisplayTime()) {
-            let promise = axios.post(baseUrl, {
-                mantraTitle,
-                mantraText,
-                displayTime,
-                isActive,
-                playOnStartup,
-            }).then((response) => {
-                if (response.status == 200) {
+            let promise = insertMantra({mantraTitle, mantraText,displayTime, isActive, playOnStartup}).then((response)=>{
+                if(response.status === 200){
                     navigate('/');
                 }
-            }).catch((error) => {
-                // Tratamento de erros
-                if (error.response) {
-                    // O servidor retornou um status de resposta diferente de 2xx
-                    console.error('Erro de resposta do servidor:', error.response.data);
-                } else if (error.request) {
-                    // A solicitação foi feita, mas não houve resposta do servidor
-                    console.error('Sem resposta do servidor. Verifique a conexão ou a URL da API.');
-                } else {
-                    // Um erro ocorreu durante a configuração da solicitação
-                    console.error('Erro ao configurar a solicitação:', error.message);
-                }
+            },(error)=>{
+                console.error('Error ao cadastrar um mantra: ', error);
+                toast.error('Erro ao cadastrar um mantra');
             });
-
+            
             toast.promise(promise, {
                 loading: 'Carregando...',
                 success: 'Mantra cadastrado com sucesso',
                 error: 'Erro ao cadastrar um mantra',
                 duration: 5000
-
             });
-        } else {
-            toast.error('Horário já em uso, escolha outro', {
-                duration: 8000
-            });
-            
         }
 
-    }
 
     return (
         <>
@@ -113,7 +66,7 @@ const NewMantra = () => {
                                 <input type="checkbox" className='d-none' id='is-active' />
                                 <div className="check d-flex align-items-center"></div>
                             </label>
-                            <p>Desabilitar/habilitar a exibição do mantra.</p>
+                            <p>Habilitar a exibição do mantra.</p>
                         </div>
                         <div className="form-item">
                             <label htmlFor="time">Horário para tocar a 🔔 notificação </label>
@@ -125,7 +78,7 @@ const NewMantra = () => {
             </div>
             <Toaster />
         </>
-    );
+    )
 }
 
 export default NewMantra;

@@ -343,3 +343,6 @@ label input:checked ~ .check::after {
 .mantra .mantra-footer .config-box div:hover{
   background-color: #F5F5F5;
 }
+.config-icon.rotate{
+  transform: rotate(60deg);
+}
