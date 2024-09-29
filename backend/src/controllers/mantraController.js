@@ -161,7 +161,7 @@ function searchMantrasByDisplayTime(req, res) {
   let sql = "SELECT * FROM Mantras WHERE displayTime = ? AND isActive = 1";
   let displayTime = req.body.displayTime;
   try {
-    db.get(sql, [displayTime], (error, rows) => {
+    db.all(sql, [displayTime], (error, rows) => {
       if (error) {
         return res
           .status(500)
