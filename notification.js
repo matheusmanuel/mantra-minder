@@ -11,7 +11,7 @@ function sendNotification(mantra) {
   notifier.notify({
     title: "Mantra Minder",
     message: mantra,
-    icon: path.join(__dirname, "icon.png"),
+    icon: path.join(__dirname, "logo.ico"),
     sound: true,
     // wait: true, // Manter a notificação até que seja fechada manualmente
   });
