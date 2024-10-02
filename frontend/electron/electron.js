@@ -1,48 +1,35 @@
-const path = require("path");
-const { app, BrowserWindow, shell } = require("electron");
-const isDev = process.env.IS_DEV == "true" ? true : false;
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
 
-require("../../backend/src/index.js");
-const pushNotificationMantras = require("../src/scripts/pushNotificationMantras.js");
+let mainWindow;
 
 function createWindow() {
-  const mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 650,
-    frame: true,
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
     },
   });
   mainWindow.maximize();
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url);
-    return { action: "deny" };
-  });
 
-  mainWindow.loadURL(
-    isDev
-      ? "http://localhost:3000"
-      : `file://${path.join(__dirname, "../dist/index.html")}`
-  );
-  // Open the DevTools.
-  if (isDev) {
-    mainWindow.webContents.openDevTools();
-  }
+  mainWindow.loadURL('http://localhost:4351');
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
 }
 
-app.whenReady().then(() => {
-  createWindow();
-  setInterval(pushNotificationMantras.searchMantrasByDisplayTime, 60000);
-  pushNotificationMantras.searchMantrasByPlayOnStartup();
-  app.on("activate", function () {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
+app.on('ready', createWindow);
+
+app.on('window-all-closed', function () {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
+app.on('activate', function () {
+  if (mainWindow === null) {
+    createWindow();
   }
 });
