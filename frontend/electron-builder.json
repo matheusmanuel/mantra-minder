@@ -5,6 +5,9 @@
       "output": "dist"
     },
     "files": ["**/*"],
+    "extraResources": [
+      "../backend/**/*"
+    ],
     "asar": true,
     "win": {
       "target": ["nsis"],
@@ -15,4 +18,3 @@
       "icon": "logo.icns"
     }
   }
-  
