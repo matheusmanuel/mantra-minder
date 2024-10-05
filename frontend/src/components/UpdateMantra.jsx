@@ -20,43 +20,51 @@ const UpdateMantra = () => {
 
   const [mantraTitleOriginal, setMantraTitleOriginal] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    let promise = editMantra(MantraData).then((response)=>{
-        if(response.status === 200) {
-            navigate('/');
+    // Usando a nova função do Electron
+    const promise = window.electron.editMantra(MantraData).then((response) => {
+        console.log(`response:`, response);
+        if (response) {
+            navigate('/'); // Redirecionar após sucesso
         }
-    },((error)=>{
-        console.error('Error ao cadastrar um mantra: ', error);
-        toast.error('Erro ao cadastrar um mantra');
-    }))
-
+    }).catch((error) => {
+        console.error('Error ao editar um mantra: ', error);
+        toast.error('Erro ao editar um mantra');
+    });
+  
+    // Mensagem de carregamento do toast
     toast.promise(promise, {
-      loading: "Carregando...",
-      success: "Mantra editado",
-      error: "Erro ao editar um mantra",
+        loading: "Carregando...",
+        success: "Mantra editado com sucesso",
+        error: "Erro ao editar um mantra",
+        duration: 5000
     });
   };
 
   useEffect(() => {
-
-   getMantra(id).then((response)=>{
-    if (response.status == 204) {
-        navigate("/");
-      } else if(response.status === 200){
-        setMantraData(response.data);
-        setIsCheckedPlayOnStartup(response.data.playOnStartup === 1);
-        setIsCheckedActive(response.data.isActive === 1);
-        setMantraTitleOriginal(response.data.mantraTitle);
-      }else{
-        console.log("Erro ao buscar os dados do mantra: ");
+    const fetchMantra = async () => {
+      try {
+        const response = await window.electron.getMantra(id);
+       
+        if(response.mantraTitle !== null || response.mantraTitle !== ``) {
+          setMantraData(response);
+          setIsCheckedPlayOnStartup(response.playOnStartup === 1);
+          setIsCheckedActive(response.isActive === 1);
+          setMantraTitleOriginal(response.mantraTitle);
+        }else{
+          console.log("Erro ao buscar os dados do mantra: ", response);
+          navigate("/");
+        }
+      } catch (error) {
+        console.log("Erro ao buscar os dados do mantra:", error);
       }
-   },(error) => {
-    console.log("Erro ao buscar os dados do mantra:", error);
-  });
-
+    };
+  
+    fetchMantra();
   }, [id]);
+  
 
   const [isCheckedPlayOnStartup, setIsCheckedPlayOnStartup] = useState();
   const [isCheckedIsActive, setIsCheckedActive] = useState();

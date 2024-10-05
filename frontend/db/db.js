@@ -37,4 +37,4 @@ function createTablesInDatabase(db) {
   }
 }
 
-module.exports = makeConnection();
+module.exports = makeConnection;

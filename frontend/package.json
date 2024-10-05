@@ -12,9 +12,8 @@
     "build": "vite build",
     "preview": "vite preview --port 8080",
     "serve": "vite preview",
-    "electron": " electron .",
+    "electron": "cross-env IS_DEV=true electron .",
     "electron:pack": "electron-builder --dir",
-    "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"npm run electron\"",
     "electron:builder": "electron-builder",
     "build:for:electron": "tsc --noEmit && cross-env ELECTRON=true vite build",
     "app:build": "npm run build:for:electron && npm run electron:builder"
@@ -28,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.17.0",
+    "sqlite3": "^5.1.7",
     "wait-on": "^7.0.1"
   },
   "devDependencies": {
@@ -45,7 +45,7 @@
   },
   "build": {
     "appId": "com.matheusmanuel.package",
-    "productName": "Mantra Minder",
+    "productName": "Mantra Minder Matheus",
     "copyright": "Copyright © 2023 Matheus manuel",
     "mac": {
       "category": "public.app-category.utilities"

@@ -13,7 +13,7 @@ function sendNotification(mantra) {
     message: mantra,
     icon: path.join(__dirname, "logo.ico"),
     sound: true,
-    // wait: true, // Manter a notificação até que seja fechada manualmente
+    wait: true,
   });
 }
 
@@ -39,10 +39,6 @@ function getAllmantras() {
     });
 }
 
-// Exemplo de uso
-sendNotification("Hora de praticar seu mantra!");
-getAllmantras();
-
 function filterMantrasByDisplayTime(displayTime, mantras) {
   return mantras.filter(
     (mantra) => mantra.displayTime === displayTime && mantra.isActive === 1
@@ -66,4 +62,6 @@ function getHour() {
   return `${hours}:${minutes}`;
 }
 
+sendNotification("Hora de praticar seu mantra!");
+getAllmantras();
 setInterval(getAllmantras, 1000);
