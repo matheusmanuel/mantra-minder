@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import Mantra from "./Mantra";
 import { NavLink } from "react-router-dom";
-import { getAllMantras } from "../services/mantrasService";
 
 const Mantras = () => {
-  const [mantra, setmantras] = useState(null);
+  const [mantra, setMantras] = useState(null);
 
   useEffect(() => {
- 
-    getAllMantras().then((data) => {
-        setmantras(data);
-    });
+    const fetchMantras = async () => {
+      const data = await window.electron.getAllMantras();
+      setMantras(data);
+    };
 
+    fetchMantras();
   }, []);
 
   return (

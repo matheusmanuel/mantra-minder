@@ -1,17 +1,19 @@
 {
-  "name": "mantra minder",
+  "name": "mantra-minder",
   "private": true,
-  "displayName": "mantra minder",
+  "displayName": "mantra minder - Afirmações diárias",
   "version": "0.0.0",
+  "main:react": "src/main.jsx",
   "main": "electron/electron.js",
+  "homepage": "./",
   "scripts": {
-    "dev": "vite ",
-    "start": "concurrently \"npm run dev\" \"npm run electron\"",
-    "build": "tsc --noEmit && vite build",
+    "dev": "cross-env IS_DEV=true vite ",
+    "start": "cross-env IS_DEV=true concurrently \"npm run dev\" \"npm run electron\"",
+    "build": "vite build",
+    "preview": "vite preview --port 8080",
     "serve": "vite preview",
-    "electron": " electron .",
+    "electron": "cross-env IS_DEV=true electron .",
     "electron:pack": "electron-builder --dir",
-    "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"npm run electron\"",
     "electron:builder": "electron-builder",
     "build:for:electron": "tsc --noEmit && cross-env ELECTRON=true vite build",
     "app:build": "npm run build:for:electron && npm run electron:builder"
@@ -20,26 +22,30 @@
     "axios": "^1.5.1",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
+    "electron-is-dev": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.17.0",
+    "sqlite3": "^5.1.7",
     "wait-on": "^7.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
+    "electron": "^27.0.2",
+    "electron-builder": "^25.0.5",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "vite": "^4.4.5",
-    "electron": "^27.0.2"
+    "typescript": "^5.6.2",
+    "vite": "^4.4.5"
   },
   "build": {
     "appId": "com.matheusmanuel.package",
-    "productName": "Mantra Minder",
+    "productName": "Mantra Minder testes",
     "copyright": "Copyright © 2023 Matheus manuel",
     "mac": {
       "category": "public.app-category.utilities"
@@ -50,7 +56,9 @@
     },
     "files": [
       "dist/**/*",
-      "electron/**/*"
+      "electron/**/*",
+      "db/**/*",
+      "package.json"
     ],
     "directories": {
       "buildResources": "assets",

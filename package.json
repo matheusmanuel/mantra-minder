@@ -1,7 +1,17 @@
 {
+  "name": "mantra-minder",
+  "version": "1.0.0",
+  "main": "frontend/src/main.jsx",
+  "scripts": {
+    "start": "concurrently \"npm run start-frontend\" \"npm run start-backend\"",
+    "start-frontend": "cd frontend && npm start",
+    "start-backend": "cd backend && node index.js",
+    "build-frontend": "cd frontend && npm run build",
+    "electron": "electron .",
+    "build-electron": "npm run build-frontend && electron-builder"
+  },
   "dependencies": {
     "axios": "^1.7.7",
     "node-notifier": "^10.0.1"
   }
-  
 }

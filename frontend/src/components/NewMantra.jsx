@@ -2,38 +2,46 @@ import React from 'react';
 import Header from "./Header";
 import { NavLink, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import { insertMantra } from '../services/mantrasService';
 
 const NewMantra = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        let mantraTitle = document.getElementById('mantra-title').value,
-            mantraText = document.getElementById('mantra-text').value,
-            displayTime = document.getElementById('time').value,
-            checkIsActive = document.getElementById('is-active'),
-            checkPlayOnStartup = document.getElementById('play-on-startup');
+      
+        let mantraTitle = document.getElementById('mantra-title').value;
+        let mantraText = document.getElementById('mantra-text').value;
+        let displayTime = document.getElementById('time').value;
+        let checkIsActive = document.getElementById('is-active');
+        let checkPlayOnStartup = document.getElementById('play-on-startup');
+        
         let isActive = checkIsActive.checked ? 1 : 0;
         let playOnStartup = checkPlayOnStartup.checked ? 1 : 0;
-
-            let promise = insertMantra({mantraTitle, mantraText,displayTime, isActive, playOnStartup}).then((response)=>{
-                if(response.status === 200){
-                    navigate('/');
-                }
-            },(error)=>{
-                console.error('Error ao cadastrar um mantra: ', error);
-                toast.error('Erro ao cadastrar um mantra');
-            });
-            
-            toast.promise(promise, {
-                loading: 'Carregando...',
-                success: 'Mantra cadastrado com sucesso',
-                error: 'Erro ao cadastrar um mantra',
-                duration: 5000
-            });
-        }
+      
+        // Usando a nova função do Electron
+        const promise = window.electron.insertMantra({
+            mantraTitle,
+            mantraText,
+            displayTime,
+            isActive,
+            playOnStartup
+        }).then((response) => {
+            console.log('response: ', response);
+            if (response) {
+                navigate('/'); 
+            }
+        }).catch((error) => {
+            console.error('Error ao cadastrar um mantra: ', error);
+            toast.error('Erro ao cadastrar um mantra');
+        });
+      
+        toast.promise(promise, {
+            loading: 'Carregando...',
+            success: 'Mantra cadastrado com sucesso',
+            error: 'Erro ao cadastrar um mantra',
+            duration: 5000
+        });
+    };
 
 
     return (

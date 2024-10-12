@@ -1,14 +1,21 @@
+/* eslint-disable no-undef */
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 const fs = require("fs");
 
-const pathFileDB = path.join(__dirname, "db_mantras.db");
+const isDev = process.env.IS_DEV == "true" ? true : false;
+
+const pathFileDB = isDev
+  ? path.join(__dirname,'db_mantras.db')
+  : path.join(process.resourcesPath,'db_mantras.db'); 
+
+// const pathFileDB = path.join(__dirname, "db_mantras.db");
 
 function makeConnection() {
   if (fs.existsSync(pathFileDB)) {
     return new sqlite3.Database(pathFileDB);
   } else {
-    //Banco de dados não existe
+    console.log('Banco de dados criado', pathFileDB);
     // Criando um bd
     const db = new sqlite3.Database(pathFileDB, async function (error) {
       if (error) {
@@ -17,6 +24,7 @@ function makeConnection() {
       }
       await createTablesInDatabase(db);
     });
+    return db;
   }
 }
 // db = banco de dados do mantra
@@ -37,4 +45,4 @@ function createTablesInDatabase(db) {
   }
 }
 
-module.exports = makeConnection();
+module.exports = makeConnection;
