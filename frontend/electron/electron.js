@@ -19,7 +19,7 @@ function createWindow() {
       contextIsolation: true,
       enableRemoteModule: false,
     },
-    icon: path.join(__dirname, "logo.ico"),
+    icon: path.join(__dirname, "../logo.ico"),
   });
   mainWindow.maximize();
 

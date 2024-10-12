@@ -45,7 +45,7 @@
   },
   "build": {
     "appId": "com.matheusmanuel.package",
-    "productName": "Mantra Minder Matheus",
+    "productName": "Mantra Minder testes",
     "copyright": "Copyright © 2023 Matheus manuel",
     "mac": {
       "category": "public.app-category.utilities"
@@ -56,7 +56,9 @@
     },
     "files": [
       "dist/**/*",
-      "electron/**/*"
+      "electron/**/*",
+      "db/**/*",
+      "package.json"
     ],
     "directories": {
       "buildResources": "assets",
