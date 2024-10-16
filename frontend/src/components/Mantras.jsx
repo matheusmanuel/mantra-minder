@@ -3,16 +3,16 @@ import Mantra from "./Mantra";
 import { NavLink } from "react-router-dom";
 
 const Mantras = () => {
-  const [mantra, setMantras] = useState(null);
+  const [mantras, setMantras] = useState(null);
 
   useEffect(() => {
-    const fetchMantras = async () => {
-      const data = await window.electron.getAllMantras();
-      setMantras(data);
+    const fetchMantrasAndSetup = async () => {
+      const fetchedMantras = await window.electron.getAllMantras();
+      setMantras(fetchedMantras); 
     };
 
-    fetchMantras();
-  }, []);
+    fetchMantrasAndSetup();
+  }, []); // O array vazio [] garante que o efeito seja executado apenas uma vez
 
   return (
     <main className="container m-center-auto main-container">
@@ -20,8 +20,8 @@ const Mantras = () => {
         <button className="btn-00">Criar Mantra</button>
       </NavLink>
       <div className="mantra-container d-flex flex-wrap">
-        {mantra &&
-          mantra.map((mantra, index) => (
+        {mantras &&
+          mantras.map((mantra, index) => (
             <Mantra
               key={index}
               id={mantra.mantraID}

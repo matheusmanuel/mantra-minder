@@ -18,4 +18,5 @@ contextBridge.exposeInMainWorld('electron', {
   deleteMantra: (id) => ipcRenderer.invoke('delete-mantra', id),
   getMantra: (id) => ipcRenderer.invoke('get-mantra', id),
   updateVisibleMantra: (mantraData) => ipcRenderer.invoke('update-visible-mantra', mantraData), 
+  sendNotification: (title, body) => ipcRenderer.send('notify', { title, body })
 });

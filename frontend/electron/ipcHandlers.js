@@ -1,5 +1,5 @@
 // ipcHandlers.js
-const { ipcMain } = require('electron');
+const { ipcMain,Notification } = require('electron');
 const makeConnection = require('../db/db');
 let db;
 
@@ -95,6 +95,10 @@ function initIPC() {
       });
     });
   });
+
+  ipcMain.on('notify', (event, { title, body }) => {
+    new Notification({ title, body }).show();
+  })
 }
 
 module.exports = {initIPC,db};
