@@ -1,16 +1,21 @@
 /* eslint-disable no-undef */
+const { app } = require("electron");
+const makeConnection = require("../db/db");
 const notifier = require("node-notifier");
 const path = require("path");
-const makeConnection = require("../db/db");
 let db;
 let shownMantraIds = [];
+
+const iconPath = app.isPackaged
+  ? path.join(process.resourcesPath, "logo.ico")
+  : path.join(__dirname, "logo.ico");
 
 // Função que envia uma notificação
 function sendNotification(mantraTitle, mantraText) {
   notifier.notify({
     title: mantraTitle,
     message: mantraText,
-    icon: path.join(__dirname, "logo.ico"),
+    icon: iconPath,
     sound: true,
     wait: true,
   });
@@ -44,11 +49,31 @@ async function getMantras() {
   }
 }
 
+async function getMantrasByPlayOnStartup() {
+  db = makeConnection();
+  let mantras = await getAllMantras();
+  let mantrasByPlayOnStartup = filterMantrasByPlayOnStartup(mantras);
+  if (mantrasByPlayOnStartup.length > 0) {
+    mantrasByPlayOnStartup.forEach((mantra) => {
+      if (!isMantraIdDisplayed(shownMantraIds, mantra.mantraID)) {
+        sendNotification(mantra.mantraTitle,mantra.mantraText);
+      }
+    });
+  }
+}
+
 function filterMantrasByDisplayTime(displayTime, mantras) {
   return mantras.filter(
     (mantra) => mantra.displayTime === displayTime && mantra.isActive === 1
   );
 }
+
+function filterMantrasByPlayOnStartup (mantras) {
+  return mantras.filter(
+    (mantra) => mantra.playOnStartup === 1 && mantra.isActive === 1
+  );
+}
+
 
 // Se algum mantra com o mesmo id foi exibido, retorna true, caso contrário, false.
 function isMantraIdDisplayed(mantraIds, id) {
@@ -69,4 +94,5 @@ function getHour() {
 
 sendNotification("Mantra Minder","Hora de praticar seu mantra!");
 getMantras();
+getMantrasByPlayOnStartup();
 setInterval(getMantras, 1000);

@@ -19,10 +19,12 @@
     "app:build": "npm run build:for:electron && npm run electron:builder"
   },
   "dependencies": {
+    "auto-launch": "^5.0.6",
     "axios": "^1.5.1",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "electron-is-dev": "^3.0.1",
+    "node-notifier": "^10.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
@@ -45,7 +47,7 @@
   },
   "build": {
     "appId": "com.matheusmanuel.package",
-    "productName": "Mantra Minder testes",
+    "productName": "Mantra Minder 0.1",
     "copyright": "Copyright © 2023 Matheus manuel",
     "mac": {
       "category": "public.app-category.utilities"
@@ -58,11 +60,15 @@
       "dist/**/*",
       "electron/**/*",
       "db/**/*",
-      "package.json"
+      "package.json",
+      "logo.ico"
     ],
     "directories": {
       "buildResources": "assets",
       "output": "dist_electron"
+    },
+    "win": {
+      "icon": "logo.ico"
     }
   }
 }

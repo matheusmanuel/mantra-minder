@@ -67,7 +67,7 @@ const NewMantra = () => {
                                 <input type="checkbox" className='d-none' id='play-on-startup' defaultChecked />
                                 <div className="check d-flex align-items-center"></div>
                             </label>
-                            <p>Tocar o mantra quando o computador iniciar.</p>
+                            <p>Tocar o mantra quando o Aplicativo iniciar.</p>
                         </div>
                         <div className="form-item d-flex align-items-center">
                             <label>

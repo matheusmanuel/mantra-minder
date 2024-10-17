@@ -12,7 +12,7 @@ const Mantras = () => {
     };
 
     fetchMantrasAndSetup();
-  }, []); // O array vazio [] garante que o efeito seja executado apenas uma vez
+  }, []);
 
   return (
     <main className="container m-center-auto main-container">

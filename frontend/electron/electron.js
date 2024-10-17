@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const { app, BrowserWindow, Tray, Menu } = require("electron");
 const path = require("path");
-require('./notification');
+const AutoLaunch = require('auto-launch');
 const isDev = process.env.IS_DEV == "true" ? true : false;
 const { initIPC, db } = require("./ipcHandlers");
 
@@ -12,8 +12,8 @@ function createWindow() {
   initIPC();
 
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 800,
+    width: 1080,
+    height: 610,
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -23,46 +23,69 @@ function createWindow() {
     },
     icon: path.join(__dirname, "../logo.ico"),
   });
-  mainWindow.maximize();
+  // mainWindow.maximize();
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
     return { action: "deny" };
   });
 
-  // Open the DevTools.
-
   if (isDev) {
     mainWindow.webContents.openDevTools();
     mainWindow.loadURL("http://localhost:4351");
   } else {
     mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+    addInSheelApps();
   }
 
-  mainWindow.on('close', (event) => {
+  mainWindow.on("close", (event) => {
     if (!app.isQuitting) {
       event.preventDefault();
-      mainWindow.hide(); // Esconde a janela em vez de fechá-la
+      mainWindow.hide();
     }
   });
 
-   // Configurar o tray icon (ícone na bandeja)
-   tray = new Tray(path.join(__dirname, '../logo.ico')); // Escolha seu ícone aqui
- 
-   const contextMenu = Menu.buildFromTemplate([
-     { label: 'Mostrar Mantra Minder', click: () => mainWindow.show() },
-     { label: 'Sair', click: () => {
-       app.isQuitting = true;
-       app.quit();
-     }},
-   ]);
-   tray.setContextMenu(contextMenu);
-   tray.setToolTip('Mantra Minder está rodando');
+  // Configurar o tray icon (ícone na bandeja)
+  tray = new Tray(path.join(__dirname, "logo.ico"));
+
+  const contextMenu = Menu.buildFromTemplate([
+    { label: "Mostrar Mantra Minder", click: () => mainWindow.show() },
+    {
+      label: "Sair",
+      click: () => {
+        app.isQuitting = true;
+        app.quit();
+      },
+    },
+  ]);
+  tray.setContextMenu(contextMenu);
+  tray.setToolTip("Mantra Minder está rodando");
 }
 
+function addInSheelApps(){
+  const mantraMinderAutoLauncher = new AutoLaunch({
+    name: 'Mantra Minder',
+    path: app.getPath('exe'),
+  });
+  
+  mantraMinderAutoLauncher.isEnabled().then((isEnabled) => {
+    if (!isEnabled) {
+      mantraMinderAutoLauncher.enable();
+    }
+  });
+}
 
-app.on('ready', () => {
+app.on("ready", () => {
   createWindow();
+  
+  if (process.platform === 'win32') {
+    app.setLoginItemSettings({
+      openAtLogin: true, // Inicia com o sistema
+      openAsHidden: true // Inicia escondido
+    });
+  }
+
+  require("./notification");
 });
 
 app.on("window-all-closed", function () {
@@ -72,7 +95,7 @@ app.on("window-all-closed", function () {
   }
 });
 
-app.on('activate', function () {
+app.on("activate", function () {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
